@@ -57,6 +57,10 @@ function chartName(name) {
   return name;
 }
 
+function chartPath(path) {
+  return path;
+}
+
 function getValues(values) {
   if (!values) {
     return "{}";
@@ -158,6 +162,7 @@ async function run() {
     const release = releaseName(appName, track);
     const namespace = getInput("namespace", required);
     const chart = chartName(getInput("chart", required));
+    const chartPath = chartPath(getInput("chart_path"));
     const chartVersion = getInput("chart_version");
     const values = getValues(getInput("values"));
     const task = getInput("task");
@@ -176,6 +181,7 @@ async function run() {
     core.debug(`param: appName = "${appName}"`);
     core.debug(`param: namespace = "${namespace}"`);
     core.debug(`param: chart = "${chart}"`);
+    core.debug(`param: chart_path = "${chartPath}"`);
     core.debug(`param: chart_version = "${chartVersion}"`);
     core.debug(`param: values = "${values}"`);
     core.debug(`param: dryRun = "${dryRun}"`);
@@ -193,7 +199,7 @@ async function run() {
     const args = [
       "upgrade",
       release,
-      chart,
+      !!chartPath? chartPath:chart,
       "--install",
       "--wait",
       `--namespace=${namespace}`,
