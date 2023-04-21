@@ -158,7 +158,7 @@ async function run() {
     const release = releaseName(appName, track);
     const namespace = getInput("namespace", required);
     const chart = chartName(getInput("chart", required));
-    const chartPath = chartPath(getInput("chart_path"));
+    const chartPath = chartPath(getInput("chart-path"));
     const chartVersion = getInput("chart_version");
     const values = getValues(getInput("values"));
     const task = getInput("task");
