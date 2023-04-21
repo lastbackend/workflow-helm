@@ -57,10 +57,6 @@ function chartName(name) {
   return name;
 }
 
-function chartPath(path) {
-  return path;
-}
-
 function getValues(values) {
   if (!values) {
     return "{}";
@@ -199,7 +195,7 @@ async function run() {
     const args = [
       "upgrade",
       release,
-      !!chartPath? chartPath:chart,
+      !!chartPath? chartPath : chart,
       "--install",
       "--wait",
       `--namespace=${namespace}`,
