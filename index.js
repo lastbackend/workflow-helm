@@ -193,9 +193,10 @@ async function run() {
 
     // Setup command options and arguments.
     const args = [
+      "secrets",
       "upgrade",
       release,
-      !!chartPath? chartPath : chart,
+      !!chartPath ? chartPath : chart,
       "--install",
       "--wait",
       `--namespace=${namespace}`,
