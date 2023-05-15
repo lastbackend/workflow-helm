@@ -20,6 +20,8 @@ RUN apk add --no-cache ca-certificates \
     # Init version 2 helm:
     helm init --client-only
 
+RUN helm plugin install https://github.com/jkroepke/helm-secrets --version v4.4.2
+
 ENV PYTHONPATH "/usr/lib/python3.8/site-packages/"
 
 COPY . /usr/src/
