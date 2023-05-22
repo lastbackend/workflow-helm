@@ -68,13 +68,10 @@ function getValues(values) {
 }
 
 function getSecrets(secrets) {
-  console.log("parse provided secrets");
   if (typeof secrets === "string") {
-    console.log("secrets provided as string");
     try {
       return JSON.parse(secrets);
     } catch (err) {
-      console.log("can not parse secrets:", err);
       return secrets;
     }
   }
