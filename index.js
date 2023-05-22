@@ -72,6 +72,7 @@ function getSecrets(secrets) {
     try {
       return JSON.parse(secrets);
     } catch (err) {
+      console.log("can not parse secrets:", err);
       return secrets;
     }
   }
