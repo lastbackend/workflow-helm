@@ -139,10 +139,7 @@ function renderFiles(files, data) {
  * @param {string} release
  */
 function deleteCmd(helm, namespace, release) {
-  if (helm === "helm3") {
-    return ["delete", "-n", namespace, release];
-  }
-  return ["delete", "--purge", release];
+  return ["delete", "-n", namespace, release];
 }
 
 /**
@@ -165,7 +162,6 @@ async function run() {
     const version = getInput("version");
     const valueFiles = getValueFiles(getInput("value_files"));
     const removeCanary = getInput("remove_canary");
-    const helm = getInput("helm") || "helm";
     const timeout = getInput("timeout");
     const repository = getInput("repository");
     const dryRun = core.getInput("dry-run");
@@ -203,13 +199,9 @@ async function run() {
     ];
 
     // Per https://helm.sh/docs/faq/#xdg-base-directory-support
-    if (helm === "helm3") {
-      process.env.XDG_DATA_HOME = "/root/.helm/"
-      process.env.XDG_CACHE_HOME = "/root/.helm/"
-      process.env.XDG_CONFIG_HOME = "/root/.helm/"
-    } else {
-      process.env.HELM_HOME = "/root/.helm/"
-    }
+    process.env.XDG_DATA_HOME = "/root/.helm/"
+    process.env.XDG_CACHE_HOME = "/root/.helm/"
+    process.env.XDG_CONFIG_HOME = "/root/.helm/"
 
     if (dryRun) args.push("--dry-run");
     if (appName) args.push(`--set=app.name=${appName}`);
