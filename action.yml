@@ -46,6 +46,9 @@ inputs:
   repository:
     description: Repository if deploy from local path
     required: false
+  debug:
+    description: Dry run helm output 
+    required: false
 
 runs:
   using: docker
