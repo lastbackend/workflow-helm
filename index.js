@@ -260,9 +260,9 @@ async function run() {
         ignoreReturnCode: true
       });
     } else {
-      await exec.exec("helm", "version");
-      await exec.exec("helm", ["plugin", "list"]);
-      await exec.exec("helm", args);
+      await exec.exec("/usr/bin/helm", "version");
+      await exec.exec("/usr/bin/helm", ["plugin", "list"]);
+      await exec.exec("/usr/bin/helm", args);
     }
 
     await status(task === "remove" ? "inactive" : "success");
