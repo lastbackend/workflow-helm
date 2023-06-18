@@ -261,7 +261,7 @@ async function run() {
       });
     } else {
       await exec.exec("/usr/bin/helm", "version");
-      await exec.exec("/usr/bin/helm", ["plugin", "list"]);
+      await exec.exec("/usr/bin/helm", ["plugin", "install", "https://github.com/jkroepke/helm-secrets"]);
       await exec.exec("/usr/bin/helm", args);
     }
 
