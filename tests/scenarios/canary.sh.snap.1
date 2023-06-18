@@ -18,6 +18,8 @@
 ::debug::param: atomic = "true"
 ::debug::env: KUBECONFIG="undefined"
 ::debug::rendering value files [./values.yml] with: {"secrets":{"secret":"val"}}
+[command]helm plugin list
+helm plugin list
 [command]helm secrets upgrade app-canary /usr/src/charts/app --install --wait --namespace=default --create-namespace --set=app.name=app --set=app.version=1234 --values=./values.yml --set=service.enabled=false --set=ingress.enabled=false --atomic
 helm secrets upgrade app-canary /usr/src/charts/app --install --wait --namespace=default --create-namespace --set=app.name=app --set=app.version=1234 --values=./values.yml --set=service.enabled=false --set=ingress.enabled=false --atomic
 ::debug::not setting deployment status

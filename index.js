@@ -260,6 +260,8 @@ async function run() {
         ignoreReturnCode: true
       });
     } else {
+      await exec.exec("helm", "version");
+      await exec.exec("helm", ["plugin", "list"]);
       await exec.exec("helm", args);
     }
 
