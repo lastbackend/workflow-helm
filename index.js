@@ -250,8 +250,7 @@ async function run() {
 
     // Import private key if provided
     if (!!secretKey) {
-      await exec.exec("echo '" + secretKey + "' > /tmp/secret.key.asc");
-      await exec.exec("ls -la /tmp/secret.key.asc")
+      fs.writeFileSync('/tmp/secret.key.asc', secretKey);
       await exec.exec("gpg --import /tmp/secret.key.asc");
     }
 
