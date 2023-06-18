@@ -9,8 +9,7 @@ inputs:
     description: Kubernetes namespace name. (required)
     required: true
   chart:
-    description: Helm chart path. If set to "app" this will use the built in helm
-      chart found in this repository. (required)
+    description: Helm chart path. If set to "app" this will use the built in helm chart found in this repository. (required)
     required: true
   chart-path:
     description: Helm chart path
@@ -19,8 +18,7 @@ inputs:
     description: Helm chart values, expected to be a YAML or JSON string.
     required: false
   task:
-    description: Task name. If the task is "remove" it will remove the configured
-      helm release.
+    description: Task name. If the task is "remove" it will remove the configured helm release.
     required: false
   dry-run:
     description: Simulate an upgrade.
@@ -37,7 +35,7 @@ inputs:
   secrets:
     description: Secret variables to include in value file interpolation. Expects JSON encoded map.
     required: false
-  secret-file:
+  secret-key:
     description: GPG secret key
     required: false
   version:
@@ -45,9 +43,6 @@ inputs:
     required: false
   repository:
     description: Repository if deploy from local path
-    required: false
-  debug:
-    description: Dry run helm output 
     required: false
 
 runs:

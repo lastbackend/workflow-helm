@@ -134,11 +134,10 @@ function renderFiles(files, data) {
 /**
  * Makes a delete command for compatibility between helm 2 and 3.
  *
- * @param {string} helm
  * @param {string} namespace
  * @param {string} release
  */
-function deleteCmd(helm, namespace, release) {
+function deleteCmd(namespace, release) {
   return ["delete", "-n", namespace, release];
 }
 
@@ -161,6 +160,7 @@ async function run() {
     const task = getInput("task");
     const version = getInput("version");
     const valueFiles = getValueFiles(getInput("value_files"));
+    const secretKey = getInput("secret_key");
     const removeCanary = getInput("remove_canary");
     const timeout = getInput("timeout");
     const repository = getInput("repository");
@@ -181,6 +181,7 @@ async function run() {
     core.debug(`param: version = "${version}"`);
     core.debug(`param: secrets = "${JSON.stringify(secrets)}"`);
     core.debug(`param: valueFiles = "${JSON.stringify(valueFiles)}"`);
+    core.debug(`param: secretKey = "${secretKey}"`);
     core.debug(`param: removeCanary = ${removeCanary}`);
     core.debug(`param: timeout = "${timeout}"`);
     core.debug(`param: repository = "${repository}"`);
@@ -189,6 +190,7 @@ async function run() {
 
     // Setup command options and arguments.
     const args = [
+      "secrets",
       "upgrade",
       release,
       !!chartPath ? chartPath : chart,
@@ -209,6 +211,7 @@ async function run() {
     if (chartVersion) args.push(`--version=${chartVersion}`);
     if (timeout) args.push(`--timeout=${timeout}`);
     if (repository) args.push(`--repo=${repository}`);
+
     valueFiles.forEach(f => args.push(`--values=${f}`));
     args.push("--values=./values.yml");
 
@@ -242,18 +245,26 @@ async function run() {
     // Remove the canary deployment before continuing.
     if (removeCanary) {
       core.debug(`removing canary ${appName}-canary`);
-      await exec.exec(helm, deleteCmd(helm, namespace, `${appName}-canary`), {
+      await exec.exec("helm", deleteCmd(helm, namespace, `${appName}-canary`), {
         ignoreReturnCode: true
       });
     }
 
+    // Import private key if provided
+    if (!!secretKey) {
+      core.debug("save secret file to temporary file");
+      await exec.exec("echo", secretKey, ">", "secret.key.asc");
+      core.debug("import secret file to gpg keyring");
+      await exec.exec("gpg", "--import", "secret.key.asc");
+    }
+
     // Actually execute the deployment here.
     if (task === "remove") {
-      await exec.exec(helm, deleteCmd(helm, namespace, release), {
+      await exec.exec("helm", deleteCmd(helm, namespace, release), {
         ignoreReturnCode: true
       });
     } else {
-      await exec.exec(helm, args);
+      await exec.exec("helm", args);
     }
 
     await status(task === "remove" ? "inactive" : "success");
