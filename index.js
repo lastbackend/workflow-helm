@@ -251,7 +251,7 @@ async function run() {
     // Import private key if provided
     if (!!secretKey) {
       core.debug("save secret file to temporary file");
-      await exec.exec("echo", secretKey, ">", "secret.key.asc");
+      await exec.exec("echo", secretKey + " > secret.key.asc");
       core.debug("import secret file to gpg keyring");
       await exec.exec("gpg", "--batch --import secret.key.asc");
     }
