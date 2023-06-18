@@ -202,7 +202,7 @@ async function run() {
     process.env.XDG_DATA_HOME = "/root/.helm/"
     process.env.XDG_CACHE_HOME = "/root/.helm/"
     process.env.XDG_CONFIG_HOME = "/root/.helm/"
-    process.env.HELM_PLUGINS = "/root/.helm/helm/plugins/";
+    process.env.HELM_PLUGINS = "/root/.local/share/helm/plugins/";
 
     if (dryRun) args.push("--dry-run");
     if (appName) args.push(`--set=app.name=${appName}`);
