@@ -253,7 +253,7 @@ async function run() {
       core.debug("save secret file to temporary file");
       await exec.exec("echo", secretKey, ">", "secret.key.asc");
       core.debug("import secret file to gpg keyring");
-      await exec.exec("gpg", "--batch", "--import", "secret.key.asc");
+      await exec.exec("gpg", "--batch --import secret.key.asc");
     }
 
     // Actually execute the deployment here.
