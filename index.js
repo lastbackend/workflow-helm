@@ -202,6 +202,7 @@ async function run() {
     process.env.XDG_DATA_HOME = "/root/.helm/"
     process.env.XDG_CACHE_HOME = "/root/.helm/"
     process.env.XDG_CONFIG_HOME = "/root/.helm/"
+    process.env.HELM_PLUGINS = "/root/.helm/helm/plugins/";
 
     if (dryRun) args.push("--dry-run");
     if (appName) args.push(`--set=app.name=${appName}`);
@@ -252,6 +253,7 @@ async function run() {
     if (!!secretKey) {
       fs.writeFileSync('/tmp/secret.key.asc', secretKey);
       await exec.exec("gpg --import /tmp/secret.key.asc");
+      await exec.exec("helm");
     }
 
     // Actually execute the deployment here.
@@ -260,9 +262,7 @@ async function run() {
         ignoreReturnCode: true
       });
     } else {
-      await exec.exec("/usr/bin/helm", "version");
-      await exec.exec("/usr/bin/helm", ["plugin", "install", "https://github.com/jkroepke/helm-secrets"]);
-      await exec.exec("/usr/bin/helm", args);
+      await exec.exec("helm", args);
     }
 
     await status(task === "remove" ? "inactive" : "success");
