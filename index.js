@@ -253,7 +253,7 @@ async function run() {
     if (!!secretKey) {
       fs.writeFileSync('/tmp/secret.key.asc', secretKey);
       await exec.exec("gpg --import /tmp/secret.key.asc");
-      await exec.exec("helm");
+      await exec.exec("helm plugins list");
     }
 
     // Actually execute the deployment here.
