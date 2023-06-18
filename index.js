@@ -250,8 +250,8 @@ async function run() {
 
     // Import private key if provided
     if (!!secretKey) {
-      await exec.exec("echo", "'" + secretKey + "' > secret.key.asc");
-      await exec.exec("gpg", "--import secret.key.asc");
+      await exec.exec("echo", [secretKey, ">", "secret.key.asc"]);
+      await exec.exec("gpg", ["--import", "secret.key.asc"]);
     }
 
     // Actually execute the deployment here.
